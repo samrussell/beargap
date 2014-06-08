@@ -12,14 +12,28 @@ class BearGapWindow(QtGui.QWidget):
     self.initUI()
 
   def textToImg(self, text):
+    
+    # clear layout
+    while not self.qrbox.isEmpty():
+      item = self.qrbox.itemAt(0)
+      item.widget().setParent(None)
+
     im = qrcode.make(text)
     imq = ImageQt(im.convert("RGBA"))
-    self.pic.setPixmap(QtGui.QPixmap.fromImage(imq))
-    self.pic.adjustSize()
+    #self.pic.setPixmap(QtGui.QPixmap.fromImage(imq))
+    #self.pic.adjustSize()
+    pic = []
+    pic.append(QtGui.QLabel())
+    pic.append(QtGui.QLabel())
+    for p in range(len(pic)):
+      im = qrcode.make('gary %d %s' % (p, text))
+      imq = ImageQt(im.convert("RGBA"))
+      pic[p].setPixmap(QtGui.QPixmap.fromImage(imq))
+      self.qrbox.addWidget(pic[p])
+
     
 
   def initUI(self):
-    
 
     self.resize(450, 450)
     self.move(300, 300)
@@ -30,17 +44,30 @@ class BearGapWindow(QtGui.QWidget):
     # need to convert to RGBA or else PIL.ImageQt fails
     imq = ImageQt(im.convert("RGBA"))
 
-    self.pic = QtGui.QLabel(self)
+    self.pic = QtGui.QLabel()
     self.pic.setPixmap(QtGui.QPixmap.fromImage(imq))
     #pic.setGeometry(0, 0, 290, 290)
+    self.qrbox = QtGui.QHBoxLayout()
+    self.qrbox.addWidget(self.pic)
 
-    qle = QtGui.QLineEdit(self)
+    qle = QtGui.QLineEdit()
     qle.textChanged[str].connect(self.onChanged)
 
-    qbtn = QtGui.QPushButton('Generate QR code', self)
+    qbtn = QtGui.QPushButton('Generate QR code')
     qbtn.clicked.connect(self.onClicked)
     qbtn.resize(qbtn.sizeHint())
-    qbtn.move(150, 0)
+    #qbtn.move(150, 0)
+
+    # configure layout
+    hbox = QtGui.QHBoxLayout()
+    hbox.addWidget(qle)
+    hbox.addWidget(qbtn)
+
+    vbox = QtGui.QVBoxLayout()
+    vbox.addLayout(self.qrbox)
+    vbox.addLayout(hbox)
+        
+    self.setLayout(vbox)
 
     self.show()
 

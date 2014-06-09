@@ -17,6 +17,17 @@ Why would you do it this way?
 - USB keys are too big (according to Bruce Schneier https://www.schneier.com/blog/archives/2013/10/air_gaps.html), and there's tons of room for something nasty to catch a ride
 - The communications channel is wide open - you can video your transfers and audit them at a later date
 
+Setup
+
+You will need the following libraries:
+- libzbar-dev
+- zbar-tools
+- python-qt4
+- pyqt4-dev-tools
+- python-qrcode
+- PIL
+- a few others? (will update soon)
+
 Donations
 
 If you find this useful, and want me to keep writing code like this, then feel free to donate to 1FTwGgGZhwnhoYM5d8ZwMLSihCpyejCaKi

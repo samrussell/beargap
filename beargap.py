@@ -18,7 +18,7 @@ class BearGapWindow(QtGui.QWidget):
     qr = qrcode.QRCode(
       version=1,
       error_correction=qrcode.constants.ERROR_CORRECT_H,
-      box_size=6,
+      box_size=4,
       border=4,
     )
     qr.add_data(text)
@@ -26,13 +26,13 @@ class BearGapWindow(QtGui.QWidget):
     return qr.make_image()
 
   def textToImg(self, plaintext):
-    #text = base64.b64encode(str(plaintext).encode("utf-8"))
-    text = str(plaintext).encode("utf-8")
+    text = base64.b64encode(str(plaintext).encode("utf-8"))
+    #text = str(plaintext).encode("utf-8")
     length = len(text)
     m = hashlib.sha256()
     m.update(text)
     texthash = m.hexdigest()
-    qrsize = 50
+    qrsize = 500
     div = length/qrsize
     modulus = length%qrsize
     if modulus > 0:
